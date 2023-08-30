@@ -1,0 +1,48 @@
+// === NOMBRE Y ROL === // //
+
+SELECT u.name, r.name 
+FROM users u
+JOIN roles r ON u.rol_id = r.id;
+
+ // === NOMBRE, ROL SOLO PARA JAVIER === //
+
+SELECT u.name, r.name 
+FROM users u
+JOIN roles r  ON u.rol_id = r.id WHERE u.name = 'Javier';
+
+// === NOMBRE, ROL estudiante, TITTLE, TEACHER  === //
+
+SELECT u.name, r.name, c.title, c.teacher
+FROM users u
+JOIN roles r ON u.rol_id = r.id
+JOIN users_courses uc ON u.id = uc.student_id
+JOIN courses c ON c.id = uc.course_id
+
+
+// === NOMBRE, ROL profesor, TITTLE, TEACHER === // 
+
+SELECT u.name, r.name, c.title, c.teacher
+FROM users u
+JOIN roles r ON u.rol_id = r.id
+JOIN courses c ON u.id = c.teacher;
+
+// === NOMBRE, ROL, TITTLE, TEACHER, CATEGORIA, NIVEL,VIDEO === //
+
+SELECT u.name, r.name, c.title, cv.title, cv.url, ct.name, lv.title
+FROM users u
+JOIN roles r ON u.rol_id = r.id
+JOIN users_courses uc ON u.id = uc.student_id
+JOIN courses c ON c.id = uc.course_id
+JOIN course_videos cv ON cv.course_id = c.id
+JOIN categories ct ON ct.id = c.category_id
+JOIN levels_courses lv ON lv.id = c.level_course_id;
+
+// === CONSULTA COMPLETA === // 
+
+SELECT c.title, u.name, r.name, cv.title, cv.url, lv.title, ct.name  
+FROM courses c 
+JOIN users_courses uc ON c.id =uc.course_id 
+JOIN users u ON u.id= uc.student_id OR u.id = c.teacher 
+JOIN roles r ON r.id = u.rol_id JOIN course_videos cv ON cv.course_id = c.id 
+JOIN levels_courses lv ON lv.id = c.level_course_id
+JOIN categories ct ON ct.id = c.category_id;
